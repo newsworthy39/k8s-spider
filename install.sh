@@ -44,3 +44,5 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+# Add flannel to network.
+kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/v0.21.1/Documentation/kube-flannel.yml
