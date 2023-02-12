@@ -38,3 +38,9 @@ sudo systemctl restart containerd
 
 # init kubeadm
 sudo kubeadm init --pod-network-cidr=${POD_CIDR} --control-plane-endpoint=${APISERVER_IP}
+
+# setup kubectl
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
