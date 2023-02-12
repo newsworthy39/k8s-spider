@@ -33,6 +33,11 @@ sudo containerd config default | sudo tee /etc/containerd/config.toml
 
 # Turn of swap
 sudo swapoff -a
+# make backup, when modifying files.
+sudo cp /etc/fstab /etc/fstab.org
+sudo cat /etc/fstab | grep -v swap | sudo tee /etc/fstab
+
+# fixup containerd
 sudo systemctl enable containerd 
 sudo systemctl restart containerd 
 
