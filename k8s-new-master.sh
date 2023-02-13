@@ -23,8 +23,6 @@ mkdir -p /home/${SUDO_USER}/.kube
 sudo cp -fi /etc/kubernetes/admin.conf /home/${SUDO_USER}/.kube/config
 sudo chown -r ${SUDO_USER}:${SUDO_USER} /home/${SUDO_USER}/.kube /home/${SUDO_USER}/.bash_aliases
 
-# Add flannel to network.
-kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+# Add flannel to network, metrics and dns-horizontal-scaler.
+kubectl apply -fr admin/
 
-# Add metrics server (support autoscaling)
-kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/high-availability-1.21+.yaml
