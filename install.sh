@@ -49,5 +49,15 @@ mkdir -p $HOME/.kube
 sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 
+# setup aliases
+cat <<EOF >> ~/.bash_aliases
+# set up autocomplete in bash into the current shell, bash-completion package should be installed first.
+source <(kubectl completion bash)
+
+alias k=kubectl
+complete -o default -F __start_kubectl k
+EOF
+
+
 # Add flannel to network.
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
