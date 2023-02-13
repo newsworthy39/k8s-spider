@@ -9,12 +9,12 @@ APISERVER_IP=$(/usr/bin/ip address show dev enp0s3 | /usr/bin/grep -w inet | /us
 sudo kubeadm init --pod-network-cidr ${POD_CIDR} --control-plane-endpoint ${APISERVER_IP} --node-name "$(hostname)" --service-cidr ${SERVICE_CIDR}
 
 # setup kubectl
-mkdir -p ${SUDO_USER}/.kube
-sudo cp -fi /etc/kubernetes/admin.conf ${SUDO_USER}/.kube/config
-sudo chown $(id -u):$(id -g) ${SUDO_USER}/.kube/config
+mkdir -p /home/${SUDO_USER}/.kube
+sudo cp -fi /etc/kubernetes/admin.conf /home/${SUDO_USER}/.kube/config
+sudo chown $(id -u):$(id -g) /home/${SUDO_USER}/.kube/config
 
 # setup aliases
-cat <<EOF >> ${SUDO_USER}/.bash_aliases
+cat <<EOF >> /home/${SUDO_USER}/.bash_aliases
 # set up autocomplete in bash into the current shell, bash-completion package should be installed first.
 source <(kubectl completion bash)
 
