@@ -4,11 +4,10 @@ metadata:
   creationTimestamp: null
   name: nginx-deployment
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
   - protocol: TCP
     targetPort: 8080
-    nodePort: 30000
     port: 80
     name: http
   selector:
