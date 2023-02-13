@@ -24,3 +24,6 @@ sudo chown -r ${SUDO_USER}:${SUDO_USER} /home/${SUDO_USER}/.kube /home/${SUDO_US
 
 # Add flannel to network.
 kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
+
+# Add metrics server (support autoscaling)
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/high-availability-1.21+.yaml
