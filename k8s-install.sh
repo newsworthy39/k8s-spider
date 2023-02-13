@@ -7,7 +7,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 
 # netfilter
 sudo modprobe br_netfilter
-echo "br_netfilter" >
+echo "br_netfilter" | sudo tee /etc/modules-load.d/k8s.conf
 
 # Software needed.
 sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl
