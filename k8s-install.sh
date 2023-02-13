@@ -1,9 +1,5 @@
 #!/bin/bash
 
-# Configs related to running the control-plane
-POD_CIDR="10.244.0.0/16"
-APISERVER_IP=$(/usr/bin/ip address show dev enp0s3 | /usr/bin/grep -w inet | /usr/bin/awk '{print $2}' | /usr/bin/cut -d '/' -f 1)
-
 # Debian related workarounds.
 [ ! -d /etc/apt/keyrings ] &&  sudo mkdir -m 0755 -p /etc/apt/keyrings
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
@@ -11,6 +7,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 
 # netfilter
 sudo modprobe br_netfilter
+echo "br_netfilter" >
 
 # Software needed.
 sudo apt-get update && sudo apt-get install -y apt-transport-https ca-certificates curl
@@ -41,23 +38,3 @@ sudo cat /etc/fstab | grep -v swap | sudo tee /etc/fstab
 sudo systemctl enable containerd 
 sudo systemctl restart containerd 
 
-# init kubeadm
-sudo kubeadm init --pod-network-cidr=${POD_CIDR} --control-plane-endpoint=${APISERVER_IP}
-
-# setup kubectl
-mkdir -p $HOME/.kube
-sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
-# setup aliases
-cat <<EOF >> ~/.bash_aliases
-# set up autocomplete in bash into the current shell, bash-completion package should be installed first.
-source <(kubectl completion bash)
-
-alias k=kubectl
-complete -o default -F __start_kubectl k
-EOF
-
-
-# Add flannel to network.
-kubectl apply -f https://raw.githubusercontent.com/flannel-io/flannel/master/Documentation/kube-flannel.yml
