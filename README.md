@@ -13,5 +13,14 @@ K8S Spider is a quick power-up of Kubernetes inside a VM, on a flat L2, with Fla
 
 ## on the primary 
     1. k8s-new-master.sh and
-    2. k8s-new-join-command.sh will print the token to be entered on the node.
+    2. k8s-new-join-command.sh will print the token to be entered on the worker-node(s).
 
+## on the secondary/secondaries
+
+    1. kubeadm join $APISERVERIP --token $TOKEN --discovery-token-ca-cert-hash sha256:$DIGEST where
+
+        TOKEN
+        APISERVERIP
+        DIGEST
+
+        comes from the output of step #2 on the primary.
