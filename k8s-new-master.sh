@@ -7,7 +7,7 @@ APISERVER_IP=$(/usr/bin/ip address show dev enp0s3 | /usr/bin/grep -w inet | /us
 SERVICE_DNS_DOMAIN="cluster.local"
 
 # init kubeadm
-sudo kubeadm init --pod-network-cidr ${POD_CIDR} --control-plane-endpoint ${APISERVER_IP} --node-name "$(hostname)" --service-cidr ${SERVICE_CIDR} --service-dns-domain ${SERVICE_DNS_DOMAIN}
+sudo kubeadm init --pod-network-cidr ${POD_CIDR} --control-plane-endpoint ${APISERVER_IP} --node-name "$(hostname)" --service-cidr ${SERVICE_CIDR} --service-dns-domain ${SERVICE_DNS_DOMAIN} --apiserver-cert-extra-sans "$(hostname)"
 
 # setup aliases
 cat <<EOF >> /home/${SUDO_USER}/.bash_aliases
@@ -21,8 +21,8 @@ EOF
 # setup kubectl
 mkdir -p /home/${SUDO_USER}/.kube
 sudo cp -fi /etc/kubernetes/admin.conf /home/${SUDO_USER}/.kube/config
-sudo chown -r ${SUDO_USER}:${SUDO_USER} /home/${SUDO_USER}/.kube /home/${SUDO_USER}/.bash_aliases
+sudo chown ${SUDO_USER}:${SUDO_USER} /home/${SUDO_USER}/.kube /home/${SUDO_USER}/.bash_aliases
 
 # Add flannel to network, metrics and dns-horizontal-scaler.
-kubectl apply -fr admin/
+kubectl apply -f admin --recursive
 
