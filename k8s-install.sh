@@ -28,6 +28,9 @@ sudo sysctl -w net.ipv4.ip_forward=1
 echo "net.ipv4.ip_forward = 1" | sudo tee /etc/sysctl.d/20-ipforward.conf 
 sudo containerd config default | sudo tee /etc/containerd/config.toml
 
+# persistent data location to another discs.
+sudo sed -i 's#root = "/var/lib/containerd"#root = "/media/containerd"#' /etc/containerd/config.toml
+
 # Turn of swap
 sudo swapoff -a
 # make backup, when modifying files.
