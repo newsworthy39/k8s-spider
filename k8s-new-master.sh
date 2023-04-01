@@ -18,11 +18,12 @@ alias k=kubectl
 complete -o default -F __start_kubectl k
 EOF
 
+sudo chown ${SUDO_USER}:${SUDO_USER} /home/${SUDO_USER}/.bash_aliases
+
 # setup kubectl
-mkdir -p /home/${SUDO_USER}/.kube
+sudo mkdir -p /home/${SUDO_USER}/.kube
 sudo cp -fi /etc/kubernetes/admin.conf /home/${SUDO_USER}/.kube/config
-sudo chown ${SUDO_USER}:${SUDO_USER} /home/${SUDO_USER}/.kube /home/${SUDO_USER}/.bash_aliases
+sudo chown -R ${SUDO_USER}:${SUDO_USER} /home/${SUDO_USER}/.kube 
 
 # Add flannel to network, metrics and dns-horizontal-scaler.
-kubectl apply -f admin --recursive
-
+sudo kubectl apply -f admin --recursive
